@@ -1,0 +1,2 @@
+# langton-s-ant
+c
