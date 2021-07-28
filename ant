@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+enum direction {north=0, east, south, west};
+struct ant{
+    // x is horizontal, y is vertical
+    int x;
+    int y;
+
+    int current_direction;
+
+};
+
+
+int main()
+
+{
+    struct ant a={};
+    //z is the no. of turns
+    int z;
+    scanf("%d",&z);
+    scanf("%d%d",&a.x,&a.y);
+    a.current_direction=west;
+    char array[10][10];
+    memset(array, '.', sizeof array);
+
+
+    void move_one_step(){
+        if(a.current_direction==0)
+            a.y--;
+        else if(a.current_direction==1)
+            a.x++;
+        else if(a.current_direction==2)
+            a.y++;
+        else
+            a.x--;
+    }
+
+    void clockwise(){
+        a.current_direction++;
+        if(a.current_direction>3){
+            a.current_direction=north;
+        }
+    }
+
+    void anti_clockwise(){
+        a.current_direction--;
+        if(a.current_direction<0){
+            a.current_direction=west;
+        }
+    }
+
+
+    for(int i=0; i<z;i++){
+        char color=array[a.y][a.x];
+        //check if the ant is alive
+        if ((a.x>=0&&a.x<=9)&&(a.y>=0&&a.y<=9)){
+            //if the color of the square is white '.', turn 90 degree clockwise, change color, move one step
+            if(color=='.'){
+                clockwise();
+                array[a.y][a.x]='#';
+                move_one_step();
+            }
+            //if the color of the square is black '#', turn 90 degree anti clockwise, change color, move one step
+            else {
+                anti_clockwise();
+                array[a.y][a.x]='.';
+                move_one_step();
+            }
+        }
+    }
+
+    //add the ant's location at last
+    if ((a.x>=0&&a.x<=9)&&(a.y>=0&&a.y<=9)){
+        if(array[a.y][a.x]=='.')
+            array[a.y][a.x]='a';
+        else
+            array[a.y][a.x]='A';
+    }
+
+
+    printf("Enter number of turns: Enter start position: ");
+
+
+    //print the board
+    for(int i=0;i<10;i++){
+        for(int j=0;j<10;j++){
+            printf("%c",array[i][j]);
+       }
+        printf("\n");
+    }
+
+    return 0;
+}
